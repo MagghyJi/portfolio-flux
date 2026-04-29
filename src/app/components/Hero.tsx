@@ -2,69 +2,78 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section className="relative h-screen min-h-[700px] overflow-hidden bg-black">
       <Image
         src="/hero-image.png"
         alt="Harvey Specter"
         fill
         priority
-        className="object-cover object-center"
+        className="object-cover object-center opacity-90"
       />
 
-      {/* Bottom blur — very subtle */}
+      {/* Bottom gradient/blur */}
       <div
-        className="absolute left-0 right-0 bottom-0"
+        className="absolute inset-x-0 bottom-0 h-[25%] z-10"
         style={{
-          top: "85%",
-          backdropFilter: "blur(4px)",
-          WebkitBackdropFilter: "blur(4px)",
-          background: "rgba(217, 217, 217, 0.01)",
+          background: "linear-gradient(to top, rgba(0,0,0,0.9), transparent)",
         }}
       />
 
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-20 flex flex-col justify-center px-8">
         {/* [ HELLO I'M ] */}
-        <span
-          className="absolute top-[30%] left-8 font-mono text-sm text-white uppercase mix-blend-overlay"
-          style={{ letterSpacing: "0.1em" }}
-        >
-          [ HELLO I&apos;M ]
-        </span>
+        <div className="absolute top-[25%] md:top-[30%] left-8">
+          <span
+            className="font-mono text-[10px] md:text-[12px] text-white uppercase"
+            style={{ letterSpacing: "0.2em" }}
+          >
+            [ HELLO I&apos;M ]
+          </span>
+        </div>
 
         {/* Harvey Specter */}
-        <h1
-          className="absolute top-[34%] w-full text-center font-medium text-white leading-[1.1] mix-blend-overlay"
-          style={{ fontSize: "13.75vw", letterSpacing: "-0.07em", whiteSpace: "nowrap" }}
-        >
-          Harvey Specter
-        </h1>
+        <div className="mt-[-5vw]">
+          <h1
+            className="w-full text-center font-medium text-white leading-[0.9]"
+            style={{ 
+              fontSize: "clamp(4rem, 14vw, 14rem)", 
+              letterSpacing: "-0.06em", 
+              whiteSpace: "nowrap" 
+            }}
+          >
+            Harvey Specter
+          </h1>
+        </div>
 
-        {/* Description — Inter bold italic + Playfair for conjunctions */}
-        <div className="absolute bottom-12 right-8 max-w-[294px] px-5 py-4 text-left">
+        {/* Description — Editorial Mix */}
+        <div className="absolute bottom-12 right-8 max-w-[340px] text-left">
+          <div className="h-px bg-white/30 mb-6" />
           <p
-            className="text-sm font-bold italic uppercase leading-[1.1] text-black"
+            className="text-sm md:text-base font-bold italic uppercase leading-[1.1] text-white"
             style={{ letterSpacing: "-0.04em" }}
           >
             H.STUDIO{" "}
-            <span className="font-playfair font-normal">IS A</span>{" "}
+            <span className="font-playfair font-normal normal-case italic">is a</span>{" "}
             FULL-SERVICE CREATIVE STUDIO CREATING BEAUTIFUL DIGITAL EXPERIENCES{" "}
-            <span className="font-playfair font-normal">AND</span>{" "}
+            <span className="font-playfair font-normal normal-case italic">and</span>{" "}
             PRODUCTS.{" "}
-            <span className="font-playfair font-normal">WE ARE AN</span>{" "}
+            <span className="font-playfair font-normal normal-case italic">We are an</span>{" "}
             AWARD WINNING DESIGN{" "}
-            <span className="font-playfair font-normal">AND</span>{" "}
+            <span className="font-playfair font-normal normal-case italic">and</span>{" "}
             ART GROUP SPECIALIZING{" "}
-            <span className="font-playfair font-normal">IN</span>{" "}
+            <span className="font-playfair font-normal normal-case italic">in</span>{" "}
             BRANDING, WEB DESIGN{" "}
-            <span className="font-playfair font-normal">AND</span>{" "}
+            <span className="font-playfair font-normal normal-case italic">and</span>{" "}
             ENGINEERING.
           </p>
-          <a
-            href="#contact"
-            className="mt-4 inline-block bg-black text-white text-sm font-medium px-5 py-2.5 rounded-full tracking-[-0.04em] hover:opacity-80 transition-opacity"
-          >
-            Let&apos;s talk
-          </a>
+          <div className="mt-8 flex items-center gap-4">
+            <a
+              href="#contact"
+              className="inline-block bg-white text-black text-[10px] font-bold uppercase px-8 py-4 rounded-full tracking-widest hover:bg-black hover:text-white transition-all duration-300"
+            >
+              Let&apos;s talk
+            </a>
+            <span className="font-mono text-[10px] text-white/50 uppercase tracking-widest">[ SCROLL ]</span>
+          </div>
         </div>
       </div>
     </section>
