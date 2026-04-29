@@ -1,112 +1,118 @@
 import Image from "next/image";
 
 const projects = [
-  { 
-    name: "SURFERS PARADISE", 
-    cat: "PHOTOGRAPHY", 
+  {
+    title: "SURFERS PARADISE",
+    tags: ["Social Media", "Photography"],
     img: "/surfer-paradise-image.png",
-    className: "col-span-1 row-span-2 aspect-[3/5]"
   },
-  { 
-    name: "AGENCY 976", 
-    cat: "BRANDING", 
+  {
+    title: "AGENCY 976",
+    tags: ["Social Media", "Photography"],
     img: "/agency-image.png",
-    className: "col-span-1 row-span-1 aspect-square"
   },
-  { 
-    name: "CYBERPUNK CAFFE", 
-    cat: "WEB DESIGN", 
+  {
+    title: "CYBERPUNK CAFFE",
+    tags: ["Social Media", "Photography"],
     img: "/cyberpunk-image.png",
-    className: "col-span-1 row-span-1 aspect-video md:aspect-[4/3] md:-mt-20"
   },
-  { 
-    name: "MINIMAL PLAYGROUND", 
-    cat: "ART DIRECTION", 
+  {
+    title: "MINIMAL PLAYGROUND",
+    tags: ["Social Media", "Photography"],
     img: "/playground-image.png",
-    className: "col-span-1 row-span-1 aspect-square md:-mt-40"
   },
 ];
 
 export default function SelectedWork() {
   return (
-    <section id="projects" className="bg-white overflow-hidden px-8 pt-24 pb-32">
-      <div className="max-w-7xl mx-auto">
-        {/* Heading */}
-        <div className="mb-20">
-          <p
-            className="text-[12vw] font-extralight uppercase leading-[0.85] text-black"
-            style={{ letterSpacing: "-0.04em" }}
-          >
-            SELECTED
-            <span className="inline-flex items-center gap-1 align-middle ml-6">
-              <img src="/stroke-left.svg" alt="" className="h-[0.5em]" />
-              <span
-                className="font-mono text-[10px] md:text-[12px] uppercase text-black"
-                style={{ letterSpacing: "0.15em" }}
-              >
-                WORK
-              </span>
-              <img src="/stroke-right.svg" alt="" className="h-[0.5em]" />
+    <section id="work" className="bg-white py-32 px-12 md:px-20 relative text-[#000000]">
+      <div className="max-w-[1440px] mx-auto">
+        {/* Header Section */}
+        <div className="mb-24 relative">
+          <div className="flex items-start gap-4">
+            <h2 className="text-[10vw] md:text-[7vw] font-light leading-[0.85] uppercase tracking-tighter text-[#000000]">
+              SELECTED<br />WORK
+            </h2>
+            <span className="font-mono text-[11px] mt-4 text-[#000000]/40">004</span>
+          </div>
+          
+          {/* Portfolio Tag - Rotated 90° and aligned to right */}
+          <div className="absolute right-0 top-0 hidden md:block">
+            <span className="font-mono text-[10px] uppercase text-[#000000]/40 tracking-[0.3em] rotate-90 origin-top-right">
+              [ PORTFOLIO ]
             </span>
-          </p>
-          <p
-            className="text-[12vw] font-extralight uppercase leading-[0.85] text-black"
-            style={{ paddingLeft: "20vw", letterSpacing: "-0.04em" }}
-          >
-            2021—2024
-          </p>
+          </div>
         </div>
 
-        {/* Asymmetrical grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
-          {projects.map((p, i) => (
-            <div key={i} className={`group cursor-pointer ${p.className}`}>
-              <div className="relative h-full w-full overflow-hidden">
-                <Image
-                  src={p.img}
-                  alt={p.name}
-                  fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                />
-                <div className="absolute top-6 left-6">
-                  <span
-                    className="font-mono text-[9px] uppercase text-white px-2 py-1 bg-black/20 backdrop-blur-md rounded-full"
-                    style={{ letterSpacing: "0.1em" }}
-                  >
-                    {p.cat}
-                  </span>
-                </div>
-                <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-                    <img src="/arrow-top-right.svg" alt="" className="w-6 h-6 invert" />
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between mt-6">
-                <h3
-                  className="text-lg font-bold uppercase text-black"
-                  style={{ letterSpacing: "-0.02em" }}
-                >
-                  {p.name}
-                </h3>
-                <div className="h-px bg-black/10 flex-1 mx-6" />
-                <span className="font-mono text-[12px] text-black/40">
-                  VIEW CASE
-                </span>
-              </div>
+        {/* Staggered Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-24 items-start">
+          {/* Left Column */}
+          <div className="flex flex-col">
+            <div className="flex flex-col gap-32">
+              <ProjectCard project={projects[0]} />
+              <ProjectCard project={projects[2]} />
             </div>
-          ))}
-        </div>
 
-        <div className="mt-32 flex justify-center">
-          <button className="group relative px-10 py-5 bg-black text-white rounded-full overflow-hidden transition-all hover:pr-14">
-            <span className="relative z-10 font-bold uppercase text-sm tracking-widest">Explore all projects</span>
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all">
-              →
+            {/* CTA Box - Moved UP and cleaned */}
+            <div className="relative p-10 mt-6 max-w-[500px]">
+               <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#000000]" />
+               <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-[#000000]" />
+               <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-[#000000]" />
+               <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#000000]" />
+               <div className="flex flex-col gap-8">
+                 <p className="text-[15px] font-medium leading-[1.4] max-w-[420px] text-[#000000]">
+                   Discover how my creativity transforms ideas into impactful digital<br className="hidden md:block" /> experiences — schedule a call with me to get started.
+                 </p>
+                 <button className="bg-[#000000] text-white text-[10px] uppercase py-3 px-8 rounded-full w-fit hover:scale-105 transition-transform font-bold tracking-widest">
+                   Let's talk
+                 </button>
+               </div>
             </div>
-          </button>
+          </div>
+
+          {/* Right Column - Offset creates the gap */}
+          <div className="flex flex-col gap-32 md:pt-64">
+            <ProjectCard project={projects[1]} />
+            <ProjectCard project={projects[3]} />
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function ProjectCard({ project }: { project: any }) {
+  return (
+    <div className="group cursor-pointer flex flex-col gap-8 text-[#000000]">
+      <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
+        <Image
+          src={project.img}
+          alt={project.title}
+          fill
+          className="object-cover transition-transform duration-1000 group-hover:scale-110"
+        />
+        {/* Tags overlay */}
+        <div className="absolute bottom-8 left-8 flex gap-3">
+          {project.tags.map((tag: string) => (
+            <span key={tag} className="bg-white/10 backdrop-blur-md text-white text-[10px] uppercase py-1.5 px-4 rounded-full border border-white/20 font-medium tracking-wider">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="flex justify-between items-center border-b border-[#000000]/10 pb-6">
+        <h3 className="text-3xl md:text-[2.5vw] font-black uppercase tracking-tight leading-none text-[#000000]">
+          {project.title}
+        </h3>
+        <div className="relative w-8 h-8 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1">
+          <Image
+            src="/arrow-top-right.svg"
+            alt="View project"
+            fill
+            className="object-contain"
+          />
+        </div>
+      </div>
+    </div>
   );
 }
