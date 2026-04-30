@@ -1,4 +1,6 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
 
 const links = [
   { name: "About", href: "#about" },
@@ -9,76 +11,127 @@ const links = [
 ];
 
 export default function Hero() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Prevent scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isMenuOpen]);
+
   return (
-    <section className="relative w-full min-h-screen overflow-hidden flex flex-col items-center isolation-auto">
+    <section className="relative w-full min-h-screen md:min-h-screen overflow-hidden flex flex-col items-center bg-white">
       
-      {/* 1. Base Image - Still z-0 */}
+      {/* 1. Background Image */}
       <img
         src="/hero-image-right-size.png"
         alt="Harvey Specter"
         className="absolute inset-0 w-full h-full object-cover object-top scale-105 z-0"
       />
 
-      {/* 2. Content Layer: We use two separate relative containers to manage flow + blending */}
-      
-      {/* Navbar (Always on top) */}
-      <nav className="relative w-full max-w-[1440px] px-12 py-10 flex justify-between items-center z-30 pointer-events-auto">
-        <a href="#" className="text-[17px] font-bold text-black uppercase tracking-tight">
-          H.Studio
-        </a>
-        <ul className="hidden md:flex items-center gap-14">
-          {links.map((link) => (
-            <li key={link.name}>
-              <a href={link.href} className="text-[16px] font-semibold text-black hover:opacity-50 transition-opacity">
-                {link.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <a href="#contact" className="bg-black text-white text-[14px] font-medium px-9 py-3.5 rounded-full">
-          Let's talk
-        </a>
-      </nav>
+      {/* 2. Global Content Container */}
+      <div className="relative w-full flex flex-col min-h-screen z-[1]">
+        
+        {/* Navbar */}
+        <nav className="relative w-full max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-10 flex justify-between items-center z-50">
+          <a href="#" className="text-[20px] font-bold text-black uppercase tracking-tight">
+            H.Studio
+          </a>
+          
+          {/* Desktop Nav */}
+          <ul className="hidden md:flex items-center gap-14">
+            {links.map((link) => (
+              <li key={link.name}>
+                <a href={link.href} className="text-[16px] font-semibold text-black hover:opacity-50 transition-opacity">
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+          
+          <a href="#contact" className="hidden md:block bg-black text-white text-[14px] font-medium px-9 py-3.5 rounded-full">
+            Let's talk
+          </a>
+        </nav>
 
-      {/* Title Group - Relative WITHOUT high z-index to allow blending with img (z-0) */}
-      <div className="relative w-full max-w-[1440px] px-12 mt-[36vh] flex flex-col items-start pointer-events-none">
-        <div className="px-4 mb-4">
-          <span className="font-mono text-[14px] text-white uppercase tracking-widest mix-blend-overlay">
-            [ Hello i’m ]
-          </span>
-        </div>
-        <h1 
-          className="w-full text-white font-medium whitespace-nowrap uppercase tracking-[-0.05em] text-center mix-blend-overlay"
-          style={{ 
-            fontSize: "8.5vw", 
-            lineHeight: "0.8"
-          }}
+        {/* Floating Toggle Button (Always on top for Mobile Menu) */}
+        <button 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden fixed top-8 right-6 w-10 h-10 z-[100] flex flex-col justify-center items-end gap-1.5 pointer-events-auto"
+          aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
         >
-          Harvey Specter
-        </h1>
-      </div>
+          <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "w-8 rotate-45 translate-y-[4px]" : "w-8"}`}></div>
+          <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "opacity-0" : "w-5"}`}></div>
+          <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "w-8 -rotate-45 -translate-y-[12px]" : "w-8"}`}></div>
+        </button>
 
-      {/* Description Block - Relative z-20 (Sharp, in front of blur) with EXACT 32px GAP (mt-8) */}
-      <div className="relative w-full max-w-[1440px] px-12 mt-8 flex justify-end z-20 pointer-events-auto pb-24">
-        <div className="max-w-[320px]">
-          <p className="text-[14px] font-bold italic text-black/90 uppercase leading-[1.15] tracking-tight text-right md:text-left">
-            H.STUDIO <span className="font-normal normal-case italic">is a</span> FULL-SERVICE CREATIVE STUDIO CREATING BEAUTIFUL DIGITAL EXPERIENCES <span className="font-normal normal-case italic">and</span> PRODUCTS. WE ARE AN AWARD WINNING DESING AND ART GROUP SPECIALIZING IN BRANDING, WEB DESIGN AND ENGINEERING.
-          </p>
-          <div className="mt-8 flex justify-end md:justify-start">
-            <a href="#contact" className="bg-black text-white text-[14px] font-medium px-12 py-4 rounded-full inline-block shadow-lg">
-              Let's talk
-            </a>
+        {/* Hero Content */}
+        <div className="flex-1 flex flex-col pt-[50vh] md:pt-[36vh] px-6 md:px-12 w-full max-w-[1440px] mx-auto">
+          
+          {/* Title Group */}
+          <div className="flex flex-col items-start w-full">
+            <span className="font-mono text-[12px] md:text-[14px] text-white/80 uppercase tracking-[0.2em] mb-4">
+              [ Hello i’m ]
+            </span>
+            
+            <h1 className="w-full text-white font-medium uppercase tracking-[-0.05em] leading-[0.85] text-left md:text-center">
+              <span className="block md:inline text-[20vw] md:text-[8.5vw] mix-blend-overlay">Harvey</span>
+              <span className="block md:inline text-[20vw] md:text-[8.5vw] mix-blend-overlay"> Specter</span>
+            </h1>
+          </div>
+
+          {/* Description Block */}
+          <div className="mt-8 flex justify-start md:justify-end w-full pb-16">
+            <div className="max-w-[300px] md:max-w-[320px]">
+              <p className="text-[14px] md:text-[14px] font-bold italic text-black uppercase leading-[1.15] tracking-tight">
+                H.STUDIO <span className="font-normal normal-case italic">is a</span> FULL-SERVICE CREATIVE STUDIO CREATING BEAUTIFUL DIGITAL EXPERIENCES <span className="font-normal normal-case italic">and</span> PRODUCTS. WE ARE AN AWARD WINNING DESING AND ART GROUP SPECIALIZING IN BRANDING, WEB DESIGN AND ENGINEERING.
+              </p>
+              <div className="mt-8">
+                <a href="#contact" className="bg-black text-white text-[15px] font-bold px-12 py-4 rounded-full inline-block uppercase tracking-tight">
+                  Let’s talk
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* 3. Blur Layer (z-10) - Sits between the image and the description */}
-      <div className="absolute inset-x-0 bottom-0 h-[15%] pointer-events-none backdrop-blur-[6px] z-10"
+      {/* Subtle Bottom Blur */}
+      <div className="absolute inset-x-0 bottom-0 h-[10%] pointer-events-none backdrop-blur-[4px] z-10"
            style={{ 
              maskImage: "linear-gradient(to top, black, transparent)", 
              WebkitMaskImage: "linear-gradient(to top, black, transparent)" 
            }} 
       />
+
+      {/* Premium Mobile Menu Overlay */}
+      <div className={`fixed inset-0 bg-white z-[90] flex flex-col items-center justify-center transition-all duration-500 md:hidden ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
+        <ul className="flex flex-col items-center gap-10">
+          {links.map((link) => (
+            <li key={link.name}>
+              <a 
+                href={link.href} 
+                onClick={() => setIsMenuOpen(false)}
+                className="text-[32px] font-bold text-black uppercase tracking-tighter"
+              >
+                {link.name}
+              </a>
+            </li>
+          ))}
+          <li className="mt-6">
+            <a 
+              href="#contact" 
+              onClick={() => setIsMenuOpen(false)}
+              className="bg-black text-white text-[18px] font-bold px-14 py-5 rounded-full uppercase"
+            >
+              Let’s talk
+            </a>
+          </li>
+        </ul>
+      </div>
 
     </section>
   );
