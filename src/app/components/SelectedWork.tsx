@@ -30,7 +30,6 @@ export default function SelectedWork() {
         
         {/* 1. Header Section */}
         <div className="mb-16 md:mb-24 relative w-full">
-          {/* Portfolio Tag - Above title on mobile */}
           <div className="mb-6">
             <span className="font-mono text-[10px] md:text-[12px] uppercase text-black/40 tracking-[0.2em]">
               [ PORTFOLIO ]
@@ -51,6 +50,11 @@ export default function SelectedWork() {
           <div className="flex flex-col gap-20 md:gap-32">
             <ProjectCard project={projects[0]} />
             <ProjectCard project={projects[2]} />
+            
+            {/* CTA Box - Desktop Position (Fills the gap) */}
+            <div className="hidden md:block">
+              <CTABox />
+            </div>
           </div>
 
           {/* Right Column - Offset creates the gap on desktop */}
@@ -60,28 +64,34 @@ export default function SelectedWork() {
           </div>
         </div>
 
-        {/* 3. Final CTA Box - Below the last image */}
-        <div className="mt-24 md:mt-48 flex justify-start">
-          <div className="relative p-10 md:p-16 w-full max-w-[600px]">
-            {/* Large Corner Brackets */}
-            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-black" />
-            <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-black" />
-            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-black" />
-            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-black" />
-            
-            <div className="flex flex-col gap-10">
-              <p className="text-[18px] md:text-[22px] font-medium leading-[1.3] text-black">
-                Discover how my creativity transforms ideas into impactful digital experiences — schedule a call with me to get started.
-              </p>
-              <button className="bg-black text-white text-[12px] uppercase py-4 px-12 rounded-full w-fit hover:scale-105 transition-transform font-bold tracking-widest">
-                Let's talk
-              </button>
-            </div>
-          </div>
+        {/* 3. Mobile CTA Box - Bottom Position (Blindata) */}
+        <div className="md:hidden mt-20">
+          <CTABox />
         </div>
 
       </div>
     </section>
+  );
+}
+
+function CTABox() {
+  return (
+    <div className="relative p-10 md:p-16 w-full">
+      {/* Large Corner Brackets */}
+      <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-black" />
+      <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-black" />
+      <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-black" />
+      <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-black" />
+      
+      <div className="flex flex-col gap-10">
+        <p className="text-[18px] md:text-[22px] font-medium leading-[1.3] text-black">
+          Discover how my creativity transforms ideas into impactful digital experiences — schedule a call with me to get started.
+        </p>
+        <button className="bg-black text-white text-[12px] uppercase py-4 px-12 rounded-full w-fit hover:scale-105 transition-transform font-bold tracking-widest">
+          Let's talk
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -93,9 +103,9 @@ function ProjectCard({ project }: { project: any }) {
           src={project.img}
           alt={project.title}
           fill
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover transition-transform duration-1000 group-hover:scale-110"
         />
-        {/* Tags overlay */}
         <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 flex gap-3">
           {project.tags.map((tag: string) => (
             <span key={tag} className="bg-white/10 backdrop-blur-md text-white text-[10px] uppercase py-1.5 px-4 rounded-full border border-white/20 font-medium tracking-wider">

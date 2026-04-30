@@ -24,8 +24,13 @@ export default function About() {
             ON THE SOUTH SIDE
           </p>
           <p className="px-8 pl-[30vw] text-[8.5vw] font-extralight leading-[0.95] uppercase text-black tracking-[-0.025em]">
-            OF CHICAGO. <span className="font-mono text-[10px] ml-6">[ CREATIVE FREELANCER ]</span>
+            OF CHICAGO.
           </p>
+          <div className="w-full text-center mt-10">
+            <span className="font-mono text-[10px] uppercase text-black tracking-widest">
+              [ CREATIVE FREELANCER ]
+            </span>
+          </div>
         </div>
       </div>
 
@@ -41,9 +46,11 @@ export default function About() {
           <h2 className="text-[10vw] font-light leading-[1.1] uppercase text-black">
             A CREATIVE DIRECTOR / PHOTOGRAPHER BORN <span className="font-playfair italic lowercase">&amp;</span> RAISED ON THE SOUTH SIDE OF CHICAGO.
           </h2>
-          <span className="font-mono text-[10px] mt-8 uppercase text-black tracking-widest">
-            [ CREATIVE FREELANCER ]
-          </span>
+          <div className="mt-10">
+            <span className="font-mono text-[10px] uppercase text-black tracking-widest">
+              [ CREATIVE FREELANCER ]
+            </span>
+          </div>
         </div>
       </div>
 

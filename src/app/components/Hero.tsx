@@ -29,14 +29,14 @@ export default function Hero() {
       <img
         src="/hero-image-right-size.png"
         alt="Harvey Specter"
-        className="absolute inset-0 w-full h-full object-cover object-top scale-105 z-0"
+        className="absolute inset-0 w-full h-full object-cover object-top scale-105"
       />
 
       {/* 2. Global Content Container */}
-      <div className="relative w-full flex flex-col min-h-screen z-[1]">
+      <div className="relative w-full flex flex-col min-h-screen">
         
         {/* Navbar - This scrolls with the page */}
-        <nav className="relative w-full max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-10 flex justify-between items-center z-50">
+        <nav className="relative w-full max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-10 flex justify-between items-center z-20">
           <a href="#" className="text-[20px] font-bold text-black uppercase tracking-tight">
             H.Studio
           </a>
