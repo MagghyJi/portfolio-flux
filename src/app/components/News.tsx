@@ -22,67 +22,96 @@ const articles = [
 
 export default function News() {
   return (
-    <section id="news" className="bg-[#F9F9F9] py-48 relative text-[#000000] border-t border-black/5 overflow-hidden">
-      <style jsx global>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
+    <section id="news" className="bg-[#F9F9F9] py-24 md:py-48 relative text-black border-t border-black/5 overflow-hidden">
       
-      <div className="flex flex-row items-stretch pl-12 md:pl-20 min-h-[900px]">
-        
-        {/* Sidebar Title - Aligned to the base (Read More line) */}
+      {/* 1. Desktop Version (Rotated Title + Staggered Cards) - BLINDATA */}
+      <div className="hidden md:flex flex-row items-stretch pl-20 min-h-[900px]">
         <div className="w-48 flex-shrink-0 relative z-20 mr-32">
-          {/* Using absolute positioning to anchor it to the specific baseline */}
           <div className="absolute bottom-[160px] left-0 w-full h-fit">
-            <h2 className="font-light uppercase tracking-tighter leading-none -rotate-90 origin-left whitespace-nowrap text-[2.5rem] md:text-[3.2vw] inline-block">
-              KEEP UP WITH MY LATEST <br className="hidden md:block" /> NEWS & ACHIEVEMENTS
+            <h2 className="font-light uppercase tracking-tighter leading-none -rotate-90 origin-left whitespace-nowrap text-[3.2vw] inline-block">
+              KEEP UP WITH MY LATEST <br /> NEWS & ACHIEVEMENTS
             </h2>
           </div>
         </div>
-
-        {/* Horizontal Scroll Container */}
         <div className="flex-1 overflow-x-auto no-scrollbar flex gap-0 pl-10 pr-0">
           {articles.map((a, i) => (
             <div 
               key={i} 
               className={`min-w-[450px] flex flex-col gap-8 px-16 border-l border-black/10 first:border-l-0 ${a.offset}`}
             >
-              {/* Article Image - Fixed 353x469 */}
-              <div className="relative w-[353px] h-[469px] overflow-hidden shadow-sm">
-                <Image
-                  src={a.img}
-                  alt="News article"
-                  fill
-                  className="object-cover transition-transform duration-700 hover:scale-105"
-                />
-              </div>
-
-              {/* Article Content */}
-              <div className="flex flex-col gap-6 pb-12">
-                <p className="text-[14px] leading-relaxed text-[#000000]/70 max-w-[320px]">
-                  {a.text}
-                </p>
-                <div className="flex items-center gap-2 group cursor-pointer w-fit border-b border-[#000000] pb-1">
-                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#000000]">Read more</span>
-                  <div className="relative w-3 h-3 transition-transform group-hover:translate-x-1">
-                    <Image
-                      src="/arrow-top-right.svg"
-                      alt="Arrow"
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                </div>
-              </div>
+              <NewsCard a={a} />
             </div>
           ))}
         </div>
       </div>
+
+      {/* 2. Mobile Version (Light Title + Peek Scroll) - Figma Design */}
+      <div className="md:hidden flex flex-col">
+        {/* Title stays in the margin - Forced with inline style */}
+        <div style={{ paddingLeft: '24px', paddingRight: '24px' }}>
+          <h2 className="text-[9vw] font-light leading-[1.1] uppercase mb-12 tracking-tight">
+            KEEP UP WITH MY <br /> LATEST NEWS & <br /> ACHIEVEMENTS
+          </h2>
+        </div>
+        
+        {/* Scroll area - Forced padding-left to 24px via inline style */}
+        <div 
+          style={{ 
+            display: 'flex', 
+            overflowX: 'auto', 
+            paddingLeft: '24px', 
+            paddingRight: '0px',
+            gap: '20px'
+          }} 
+          className="no-scrollbar pb-8 w-full"
+        >
+          <style dangerouslySetInnerHTML={{ __html: `.no-scrollbar::-webkit-scrollbar { display: none; }` }} />
+          
+          {articles.map((a, i) => (
+            <div 
+              key={i} 
+              className="shrink-0 w-[82vw] flex flex-col gap-6"
+            >
+              <NewsCard a={a} mobile />
+            </div>
+          ))}
+          
+          {/* Spacer to maintain the right bleed effect */}
+          <div className="shrink-0 w-12" />
+        </div>
+      </div>
+
     </section>
+  );
+}
+
+function NewsCard({ a, mobile = false }: { a: any, mobile?: boolean }) {
+  return (
+    <>
+      <div className={`relative ${mobile ? "w-full aspect-[3/4.2]" : "w-[353px] h-[469px]"} overflow-hidden shadow-sm`}>
+        <Image
+          src={a.img}
+          alt="News article"
+          fill
+          className="object-cover transition-transform duration-700 hover:scale-105"
+        />
+      </div>
+      <div className="flex flex-col gap-6">
+        <p className={`text-[14px] leading-relaxed text-black/70 ${mobile ? "w-full" : "max-w-[320px]"}`}>
+          {a.text}
+        </p>
+        <div className="flex items-center gap-2 group cursor-pointer w-fit border-b border-black pb-1">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-black">Read more</span>
+          <div className="relative w-3 h-3 transition-transform group-hover:translate-x-1">
+            <Image
+              src="/arrow-top-right.svg"
+              alt="Arrow"
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
