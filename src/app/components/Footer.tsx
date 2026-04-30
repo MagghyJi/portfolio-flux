@@ -1,65 +1,91 @@
 export default function Footer() {
   return (
-    <footer className="bg-[#000000] text-white pt-20 px-8 md:px-12 border-t border-white/5 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto flex flex-col h-full relative">
+    <footer className="bg-black text-white pt-20 pb-0 px-6 md:px-12 border-t border-white/5 overflow-hidden">
+      <div className="max-w-[1440px] mx-auto h-full flex flex-col">
         
-        {/* Top Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start mb-20 gap-12 relative">
-          {/* CTA Area */}
-          <div className="flex flex-col gap-5">
-            <h2 className="text-[1.5rem] md:text-[1.8vw] leading-none tracking-tight italic font-light">
-              HAVE A <span className="font-bold not-italic">PROJECT</span> IN MIND?
-            </h2>
-            <button className="w-fit px-6 py-2 border border-white/40 rounded-full text-[11px] uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500">
-              Let's talk
-            </button>
+        {/* 1. Mobile Version Layout (Figma Design) */}
+        <div className="flex md:hidden flex-col gap-10">
+          {/* Header */}
+          <h2 className="text-[28px] italic font-light tracking-tight uppercase leading-none">
+            HAVE A <span className="font-bold not-italic">PROJECT</span> IN MIND?
+          </h2>
+
+          {/* CTA Button */}
+          <button className="w-fit px-8 py-3 border border-white rounded-full text-[14px] hover:bg-white hover:text-black transition-all duration-300">
+            Let's talk
+          </button>
+
+          {/* Vertical Social Links */}
+          <div className="flex flex-col gap-5 mt-4">
+            {["FACEBOOK", "INSTAGRAM", "X.COM", "LINKEDIN"].map((social) => (
+              <a key={social} href="#" className="text-[24px] font-medium tracking-tight hover:opacity-60 transition-opacity">
+                {social}
+              </a>
+            ))}
           </div>
 
-          {/* Centered Social Links */}
-          <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-0 flex-col gap-2 items-center">
-            <a href="#" className="text-[10px] uppercase tracking-widest hover:text-white/60 transition-colors opacity-70">Facebook</a>
-            <a href="#" className="text-[10px] uppercase tracking-widest hover:text-white/60 transition-colors opacity-70">Instagram</a>
+          {/* Horizontal Divider */}
+          <div className="w-full h-px bg-white/20 mt-4" />
+
+          {/* Legal Links */}
+          <div className="flex justify-center gap-12 text-[12px] uppercase tracking-widest mt-4">
+            <a href="#" className="underline underline-offset-4 decoration-white/40">Licences</a>
+            <a href="#" className="underline underline-offset-4 decoration-white/40">Privacy Policy</a>
           </div>
 
-          {/* Right Social Links */}
-          <div className="flex flex-col gap-2 items-end ml-auto">
-            <a href="#" className="text-[10px] uppercase tracking-widest hover:text-white/60 transition-colors opacity-70">X.com</a>
-            <a href="#" className="text-[10px] uppercase tracking-widest hover:text-white/60 transition-colors opacity-70">Linkedin</a>
+          {/* Signature & Logo Section */}
+          <div className="flex flex-col gap-4 mt-12 mb-0">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+              [ CODED BY ANTIGRAVITY ]
+            </span>
+            <div className="w-full">
+              <h1 className="text-[25vw] leading-[0.8] font-bold tracking-[-0.06em] select-none">
+                H.Studio
+              </h1>
+            </div>
           </div>
         </div>
 
-        {/* Mobile Socials */}
-        <div className="flex md:hidden gap-8 mb-12">
-            <a href="#" className="text-[10px] uppercase tracking-widest opacity-70">Facebook</a>
-            <a href="#" className="text-[10px] uppercase tracking-widest opacity-70">Instagram</a>
-        </div>
-
-        {/* Divider */}
-        <div className="w-full h-px bg-white/10 mb-8" />
-
-        {/* Bottom Section: Logo + Legal Links (Touching bottom) */}
-        <div className="relative flex flex-col items-end mt-auto">
-          
-          <div className="flex items-end w-full justify-between translate-y-6 md:translate-y-10">
-            {/* Tag Rotated - Closer to Logo */}
-            <div className="pb-8 md:pb-12">
-              <span className="text-[8px] uppercase tracking-[0.3em] rotate-180 [writing-mode:vertical-lr] opacity-40">
-                [ CODED BY ANTIGRAVITY ]
-              </span>
+        {/* 2. Desktop Version Layout (BLINDATA + FIX) */}
+        <div className="hidden md:flex flex-col gap-24">
+          <div className="flex justify-between items-start">
+            <div className="flex flex-col gap-6">
+              <h2 className="text-[2.5vw] leading-[1.1] tracking-tight font-light uppercase italic">
+                HAVE A <span className="font-bold not-italic">PROJECT</span><br /> IN MIND?
+              </h2>
+              <button className="w-fit px-8 py-3 border border-white/20 rounded-full text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500 font-bold">
+                Let's talk
+              </button>
             </div>
 
-            {/* Massive Logo - Slightly larger and shifted left */}
-            <h1 className="text-[17vw] leading-[0.75] font-bold tracking-tighter flex-1 -ml-2 md:ml-1 select-none text-center">
+            <div className="flex gap-16">
+              <div className="flex flex-col gap-3">
+                <span className="text-[10px] uppercase tracking-widest text-white/30 mb-2">[ SOCIAL ]</span>
+                <a href="#" className="text-[11px] uppercase tracking-widest hover:text-white/60 transition-colors">Facebook</a>
+                <a href="#" className="text-[11px] uppercase tracking-widest hover:text-white/60 transition-colors">Instagram</a>
+                <a href="#" className="text-[11px] uppercase tracking-widest hover:text-white/60 transition-colors">X.com</a>
+                <a href="#" className="text-[11px] uppercase tracking-widest hover:text-white/60 transition-colors">Linkedin</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-8 pb-4">
+            <div className="w-full h-px bg-white/10" />
+            <div className="flex justify-between items-end relative">
+              <div className="pb-2">
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+                  [ CODED BY ANTIGRAVITY ]
+                </span>
+              </div>
+              <div className="flex gap-8 pb-2">
+                <a href="#" className="text-[9px] uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity border-b border-transparent hover:border-white pb-0.5">Licences</a>
+                <a href="#" className="text-[9px] uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity border-b border-transparent hover:border-white pb-0.5">Privacy Policy</a>
+              </div>
+            </div>
+            <h1 className="text-[18vw] leading-[0.75] font-black tracking-tighter text-center select-none opacity-90 -mb-4">
               H.Studio
             </h1>
-
-            {/* Legal Links - Gap preserved */}
-            <div className="flex gap-8 pb-8 md:pb-12 pr-2 whitespace-nowrap min-w-[200px] justify-end">
-              <a href="#" className="text-[8px] uppercase tracking-widest border-b border-white pb-0.5 hover:opacity-60 transition-opacity">Licences</a>
-              <a href="#" className="text-[8px] uppercase tracking-widest border-b border-white pb-0.5 hover:opacity-60 transition-opacity">Privacy Policy</a>
-            </div>
           </div>
-
         </div>
 
       </div>

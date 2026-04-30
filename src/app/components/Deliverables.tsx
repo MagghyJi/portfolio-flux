@@ -87,6 +87,7 @@ export default function Deliverables() {
                     src={s.img} 
                     alt={s.name} 
                     fill 
+                    sizes="(max-width: 768px) 140px, 120px"
                     className="object-cover transition-transform duration-700 md:group-hover:scale-110" 
                   />
                 </div>
