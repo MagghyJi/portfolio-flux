@@ -35,7 +35,7 @@ export default function Hero() {
       {/* 2. Global Content Container */}
       <div className="relative w-full flex flex-col min-h-screen z-[1]">
         
-        {/* Navbar */}
+        {/* Navbar - This scrolls with the page */}
         <nav className="relative w-full max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-10 flex justify-between items-center z-50">
           <a href="#" className="text-[20px] font-bold text-black uppercase tracking-tight">
             H.Studio
@@ -55,18 +55,18 @@ export default function Hero() {
           <a href="#contact" className="hidden md:block bg-black text-white text-[14px] font-medium px-9 py-3.5 rounded-full">
             Let's talk
           </a>
-        </nav>
 
-        {/* Floating Toggle Button (Always on top for Mobile Menu) */}
-        <button 
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden fixed top-8 right-6 w-10 h-10 z-[100] flex flex-col justify-center items-end gap-1.5 pointer-events-auto"
-          aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
-        >
-          <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "w-8 rotate-45 translate-y-[4px]" : "w-8"}`}></div>
-          <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "opacity-0" : "w-5"}`}></div>
-          <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "w-8 -rotate-45 -translate-y-[12px]" : "w-8"}`}></div>
-        </button>
+          {/* Hamburger Toggle - Sits in the Nav (scrolls) but becomes fixed when menu is OPEN */}
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className={`md:hidden flex flex-col justify-center items-end gap-1.5 w-10 h-10 z-[100] transition-all duration-300 ${isMenuOpen ? "fixed top-8 right-6" : "relative"}`}
+            aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
+          >
+            <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "w-8 rotate-45 translate-y-[4px]" : "w-8"}`}></div>
+            <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "opacity-0" : "w-5"}`}></div>
+            <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "w-8 -rotate-45 -translate-y-[12px]" : "w-8"}`}></div>
+          </button>
+        </nav>
 
         {/* Hero Content */}
         <div className="flex-1 flex flex-col pt-[50vh] md:pt-[36vh] px-6 md:px-12 w-full max-w-[1440px] mx-auto">
@@ -99,7 +99,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Subtle Bottom Blur */}
+      {/* Bottom Blur */}
       <div className="absolute inset-x-0 bottom-0 h-[10%] pointer-events-none backdrop-blur-[4px] z-10"
            style={{ 
              maskImage: "linear-gradient(to top, black, transparent)", 
