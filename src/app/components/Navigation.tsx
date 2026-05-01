@@ -7,14 +7,6 @@ import RevealButton from "./RevealButton";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const links = [
-  { name: "About", href: "/about" },
-  { name: "Services", href: "/#services" },
-  { name: "Projects", href: "/#projects" },
-  { name: "News", href: "/#news" },
-  { name: "Contact", href: "/#contact" },
-];
-
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -25,6 +17,14 @@ export default function Navigation() {
   const linksRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const buttonRef = useRef(null);
   const mobileLinksRef = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  const links = [
+    { name: "About", href: "/about" },
+    { name: "Services", href: "/#services" },
+    { name: "Projects", href: "/#projects" },
+    { name: "News", href: "/news" },
+    { name: "Contact", href: "/#contact" },
+  ];
 
   // Prevent scroll when menu is open
   useEffect(() => {
@@ -75,11 +75,11 @@ export default function Navigation() {
   };
 
   // Determine if we should use absolute or relative positioning
-  const isAboutPage = pathname === "/about";
+  const isInternalPage = pathname === "/about" || pathname?.startsWith("/news");
 
   return (
     <>
-      <nav ref={navRef} className={`w-full max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-10 flex justify-between items-center z-[200] ${isAboutPage ? "relative" : "absolute top-0 left-1/2 -translate-x-1/2"}`}>
+      <nav ref={navRef} className={`w-full max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-10 flex justify-between items-center z-[200] ${isInternalPage ? "relative" : "absolute top-0 left-1/2 -translate-x-1/2"}`}>
         <Link 
           ref={logoRef}
           href="/" 
