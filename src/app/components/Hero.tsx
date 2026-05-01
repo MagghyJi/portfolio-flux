@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import RevealButton from "./RevealButton";
 
 const links = [
   { name: "About", href: "#about" },
@@ -12,6 +14,13 @@ const links = [
 
 export default function Hero() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // Refs for GSAP
+  const navRef = useRef(null);
+  const logoRef = useRef(null);
+  const linksRef = useRef<(HTMLAnchorElement | null)[]>([]);
+  const buttonRef = useRef(null);
+  const mobileLinksRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
   // Prevent scroll when menu is open
   useEffect(() => {
@@ -21,6 +30,46 @@ export default function Hero() {
       document.body.style.overflow = "unset";
     }
   }, [isMenuOpen]);
+
+  // Initial Entrance Animation
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Navbar entrance
+      const tl = gsap.timeline({ defaults: { ease: "power4.out", duration: 1.2 } });
+      
+      tl.from(logoRef.current, { y: -20, opacity: 0, delay: 0.2 })
+        .from(linksRef.current, { 
+          y: -20, 
+          opacity: 0, 
+          stagger: 0.1 
+        }, "-=1")
+        .from(buttonRef.current, { 
+          y: -10,
+          opacity: 0 
+        }, "-=0.8");
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  // Mobile Menu Animation
+  useEffect(() => {
+    if (isMenuOpen) {
+      gsap.fromTo(mobileLinksRef.current, 
+        { y: 50, opacity: 0 }, 
+        { y: 0, opacity: 1, stagger: 0.1, ease: "power4.out", duration: 0.8, delay: 0.2 }
+      );
+    }
+  }, [isMenuOpen]);
+
+  // Hover animations for Desktop Links (Faster)
+  const handleLinkEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    gsap.to(e.currentTarget, { y: -1, color: "#777", duration: 0.15, ease: "power1.out" });
+  };
+
+  const handleLinkLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    gsap.to(e.currentTarget, { y: 0, color: "#000", duration: 0.15, ease: "power1.out" });
+  };
 
   return (
     <section className="relative w-full min-h-screen md:min-h-screen overflow-hidden flex flex-col items-center bg-white">
@@ -36,27 +85,39 @@ export default function Hero() {
       <div className="relative w-full flex flex-col min-h-screen">
         
         {/* Navbar - This scrolls with the page */}
-        <nav className="relative w-full max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-10 flex justify-between items-center z-20">
-          <a href="#" className="text-[20px] font-bold text-black uppercase tracking-tight">
+        <nav ref={navRef} className="relative w-full max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-10 flex justify-between items-center z-20">
+          <a 
+            ref={logoRef}
+            href="#" 
+            className="text-[20px] font-bold text-black uppercase tracking-tight"
+          >
             H.Studio
           </a>
           
           {/* Desktop Nav */}
           <ul className="hidden md:flex items-center gap-14">
-            {links.map((link) => (
+            {links.map((link, i) => (
               <li key={link.name}>
-                <a href={link.href} className="text-[16px] font-semibold text-black hover:opacity-50 transition-opacity">
+                <a 
+                  ref={(el) => { linksRef.current[i] = el; }}
+                  href={link.href} 
+                  onMouseEnter={handleLinkEnter}
+                  onMouseLeave={handleLinkLeave}
+                  className="text-[16px] font-semibold text-black transition-colors"
+                >
                   {link.name}
                 </a>
               </li>
             ))}
           </ul>
           
-          <a href="#contact" className="hidden md:block bg-black text-white text-[14px] font-medium px-9 py-3.5 rounded-full">
-            Let's talk
-          </a>
+          <div ref={buttonRef} className="hidden md:block">
+            <RevealButton href="#contact" className="text-[14px] font-medium px-9 py-3.5">
+              Let's talk
+            </RevealButton>
+          </div>
 
-          {/* Hamburger Toggle - Sits in the Nav (scrolls) but becomes fixed when menu is OPEN */}
+          {/* Hamburger Toggle */}
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={`md:hidden flex flex-col justify-center items-end gap-1.5 w-10 h-10 z-[100] transition-all duration-300 ${isMenuOpen ? "fixed top-8 right-6" : "relative"}`}
@@ -77,9 +138,9 @@ export default function Hero() {
               [ Hello i’m ]
             </span>
             
-            <h1 className="w-full text-white font-medium uppercase tracking-[-0.05em] leading-[0.85] text-left md:text-center">
-              <span className="block md:inline text-[20vw] md:text-[8.5vw] mix-blend-overlay">Harvey</span>
-              <span className="block md:inline text-[20vw] md:text-[8.5vw] mix-blend-overlay"> Specter</span>
+            <h1 className="w-full text-white font-medium tracking-[-0.05em] leading-[0.85] text-left md:text-center">
+              <span className="block md:inline text-[22vw] md:text-[10vw] mix-blend-overlay">Harvey</span>
+              <span className="block md:inline text-[22vw] md:text-[10vw] mix-blend-overlay"> Specter</span>
             </h1>
           </div>
 
@@ -90,9 +151,9 @@ export default function Hero() {
                 H.STUDIO <span className="font-normal normal-case italic">is a</span> FULL-SERVICE CREATIVE STUDIO CREATING BEAUTIFUL DIGITAL EXPERIENCES <span className="font-normal normal-case italic">and</span> PRODUCTS. WE ARE AN AWARD WINNING DESING AND ART GROUP SPECIALIZING IN BRANDING, WEB DESIGN AND ENGINEERING.
               </p>
               <div className="mt-8">
-                <a href="#contact" className="bg-black text-white text-[15px] font-bold px-12 py-4 rounded-full inline-block uppercase tracking-tight">
+                <RevealButton href="#contact" className="text-[15px] font-bold px-12 py-4 tracking-tight">
                   Let’s talk
-                </a>
+                </RevealButton>
               </div>
             </div>
           </div>
@@ -110,9 +171,10 @@ export default function Hero() {
       {/* Premium Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-white z-[90] flex flex-col items-center justify-center transition-all duration-500 md:hidden ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
         <ul className="flex flex-col items-center gap-10">
-          {links.map((link) => (
+          {links.map((link, i) => (
             <li key={link.name}>
               <a 
+                ref={(el) => { mobileLinksRef.current[i] = el; }}
                 href={link.href} 
                 onClick={() => setIsMenuOpen(false)}
                 className="text-[32px] font-bold text-black uppercase tracking-tighter"
@@ -136,3 +198,4 @@ export default function Hero() {
     </section>
   );
 }
+

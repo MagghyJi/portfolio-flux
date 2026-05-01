@@ -2,6 +2,8 @@ import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 
+import RevealButton from "./RevealButton";
+
 // Fetching projects from Sanity
 async function getProjects() {
   const query = `*[_type == "project"] | order(order asc) {
@@ -84,9 +86,9 @@ function CTABox() {
         <p className="text-[18px] md:text-[22px] font-medium leading-[1.3] text-black">
           Discover how my creativity transforms ideas into impactful digital experiences — schedule a call with me to get started.
         </p>
-        <button className="bg-black text-white text-[12px] uppercase py-4 px-12 rounded-full w-fit hover:scale-105 transition-transform font-bold tracking-widest">
+        <RevealButton href="#contact" className="text-[12px] py-4 px-12 w-fit font-bold tracking-widest uppercase">
           Let's talk
-        </button>
+        </RevealButton>
       </div>
     </div>
   );

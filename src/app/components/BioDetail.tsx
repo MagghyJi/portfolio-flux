@@ -21,6 +21,7 @@ export default function BioDetail() {
             src="/about-image.png"
             alt="Harvey Specter portrait"
             fill
+            sizes="436px"
             className="object-cover object-top"
           />
         </div>
@@ -66,6 +67,7 @@ export default function BioDetail() {
               src="/about-image.png"
               alt="Harvey Specter portrait"
               fill
+              sizes="100vw"
               className="object-cover object-top"
             />
           </div>

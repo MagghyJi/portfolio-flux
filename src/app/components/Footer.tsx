@@ -1,3 +1,5 @@
+import RevealButton from "./RevealButton";
+
 export default function Footer() {
   return (
     <footer className="bg-black text-white pt-20 pb-0 px-6 md:px-12 border-t border-white/5 overflow-hidden">
@@ -11,9 +13,9 @@ export default function Footer() {
           </h2>
 
           {/* CTA Button */}
-          <button className="w-fit px-8 py-3 border border-white rounded-full text-[14px] hover:bg-white hover:text-black transition-all duration-300">
+          <RevealButton href="#contact" whiteBorder className="w-fit px-8 py-3 text-[14px]">
             Let's talk
-          </button>
+          </RevealButton>
 
           {/* Vertical Social Links */}
           <div className="flex flex-col gap-5 mt-4">
@@ -53,9 +55,9 @@ export default function Footer() {
               <h2 className="text-[2.5vw] leading-[1.1] tracking-tight font-light uppercase italic">
                 HAVE A <span className="font-bold not-italic">PROJECT</span><br /> IN MIND?
               </h2>
-              <button className="w-fit px-8 py-3 border border-white/20 rounded-full text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500 font-bold">
+              <RevealButton href="#contact" whiteBorder className="w-fit px-8 py-3 text-[10px] uppercase tracking-widest font-bold">
                 Let's talk
-              </button>
+              </RevealButton>
             </div>
 
             <div className="flex gap-16">
