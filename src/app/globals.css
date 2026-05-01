@@ -9,3 +9,14 @@
 body {
   font-family: var(--font-sans);
 }
+
+/* Utility to hide scrollbars */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
