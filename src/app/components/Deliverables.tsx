@@ -56,7 +56,7 @@ export default async function Deliverables() {
                 {/* Title */}
                 <div className="md:col-span-5">
                   <h3
-                    className="text-4xl md:text-[2.2vw] font-bold italic uppercase leading-none transition-all"
+                    className="text-4xl md:text-[2.2vw] font-bold italic uppercase leading-none opacity-30 group-hover:opacity-100 group-hover:translate-x-8 transition-all duration-500 ease-out"
                     style={{ letterSpacing: "-0.02em" }}
                   >
                     {s.name}
@@ -65,20 +65,20 @@ export default async function Deliverables() {
                 
                 {/* Description */}
                 <div className="md:col-span-4">
-                  <p className="text-[14px] md:text-[13px] text-white/60 leading-relaxed max-w-[340px]">
+                  <p className="text-[14px] md:text-[13px] text-white/40 group-hover:text-white/80 leading-relaxed max-w-[340px] transition-colors duration-500">
                     {s.description}
                   </p>
                 </div>
                 
                 {/* Image */}
                 <div className="md:col-span-2 flex justify-start md:justify-end mt-4 md:mt-0">
-                  <div className="relative w-[140px] h-[140px] md:w-[120px] md:h-[120px] overflow-hidden grayscale-0 md:grayscale md:group-hover:grayscale-0 transition-all duration-700">
+                  <div className="relative w-[140px] h-[140px] md:w-[120px] md:h-[120px] overflow-hidden grayscale md:grayscale group-hover:grayscale-0 transition-all duration-500 border border-white/5 group-hover:border-white/20">
                     <Image 
                       src={imageUrl} 
                       alt={s.name} 
                       fill 
                       sizes="(max-width: 768px) 140px, 120px"
-                      className="object-cover transition-transform duration-700 md:group-hover:scale-110" 
+                      className="object-cover transition-transform duration-700 scale-105 group-hover:scale-125" 
                     />
                   </div>
                 </div>

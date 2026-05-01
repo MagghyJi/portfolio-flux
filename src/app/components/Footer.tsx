@@ -1,9 +1,65 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import RevealButton from "./RevealButton";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Footer() {
+  const footerRef = useRef(null);
+  const contentRef = useRef(null);
+  const logoRef = useRef(null);
+  const mobileLogoRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Enhanced Footer Unveil Animation
+      gsap.fromTo(contentRef.current, 
+        { 
+          yPercent: -100,
+          opacity: 0 
+        }, 
+        {
+          yPercent: 0,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top 95%",
+            end: "bottom bottom",
+            scrub: true,
+          }
+        }
+      );
+
+      // Logo Slide Up Animation (Synced for stability)
+      [logoRef.current, mobileLogoRef.current].forEach(logo => {
+        if (!logo) return;
+        gsap.fromTo(logo,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: footerRef.current,
+              start: "top 95%",
+              end: "bottom bottom",
+              scrub: true,
+            }
+          }
+        );
+      });
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <footer className="bg-black text-white pt-20 pb-0 px-6 md:px-12 border-t border-white/5 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto h-full flex flex-col">
+    <footer ref={footerRef} className="bg-black text-white pt-20 pb-0 px-6 md:px-12 border-t border-white/5 overflow-hidden">
+      <div ref={contentRef} className="max-w-[1440px] mx-auto h-full flex flex-col">
         
         {/* 1. Mobile Version Layout (Figma Design) */}
         <div className="flex md:hidden flex-col gap-10">
@@ -41,7 +97,7 @@ export default function Footer() {
               [ CODED BY ANTIGRAVITY ]
             </span>
             <div className="w-full">
-              <h1 className="text-[25vw] leading-[0.8] font-bold tracking-[-0.06em] select-none">
+              <h1 ref={mobileLogoRef} className="text-[25vw] leading-[0.8] font-bold tracking-[-0.06em] select-none">
                 H.Studio
               </h1>
             </div>
@@ -84,9 +140,11 @@ export default function Footer() {
                 <a href="#" className="text-[9px] uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity border-b border-transparent hover:border-white pb-0.5">Privacy Policy</a>
               </div>
             </div>
-            <h1 className="text-[18vw] leading-[0.75] font-black tracking-tighter text-center select-none opacity-90 -mb-4">
-              H.Studio
-            </h1>
+            <div className="w-full">
+              <h1 ref={logoRef} className="text-[18vw] leading-[0.75] font-black tracking-tighter text-center select-none opacity-90 -mb-4">
+                H.Studio
+              </h1>
+            </div>
           </div>
         </div>
 

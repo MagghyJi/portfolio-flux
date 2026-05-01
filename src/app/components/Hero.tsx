@@ -2,7 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import RevealButton from "./RevealButton";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const links = [
   { name: "About", href: "#about" },
@@ -21,6 +24,13 @@ export default function Hero() {
   const linksRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const buttonRef = useRef(null);
   const mobileLinksRef = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  // Parallax Refs
+  const sectionRef = useRef(null);
+  const bgRef = useRef(null);
+  const helloRef = useRef(null);
+  const harveyRef = useRef(null);
+  const specterRef = useRef(null);
 
   // Prevent scroll when menu is open
   useEffect(() => {
@@ -47,6 +57,47 @@ export default function Hero() {
           y: -10,
           opacity: 0 
         }, "-=0.8");
+
+      // 2. Scroll Parallax Animation
+      gsap.to(harveyRef.current, {
+        xPercent: -40,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+
+      gsap.to(helloRef.current, {
+        xPercent: -100,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+
+      gsap.to(specterRef.current, {
+        xPercent: 40,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+
+      gsap.to(bgRef.current, {
+        scale: 1.3,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true
+        }
+      });
     });
 
     return () => ctx.revert();
@@ -72,10 +123,11 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative w-full min-h-screen md:min-h-screen overflow-hidden flex flex-col items-center bg-white">
+    <section ref={sectionRef} className="relative w-full min-h-screen md:min-h-screen overflow-hidden flex flex-col items-center bg-white">
       
       {/* 1. Background Image */}
       <img
+        ref={bgRef}
         src="/hero-image-right-size.png"
         alt="Harvey Specter"
         className="absolute inset-0 w-full h-full object-cover object-top scale-105"
@@ -134,13 +186,13 @@ export default function Hero() {
           
           {/* Title Group */}
           <div className="flex flex-col items-start w-full">
-            <span className="font-mono text-[12px] md:text-[14px] text-white/80 uppercase tracking-[0.2em] mb-4">
+            <span ref={helloRef} className="font-mono text-[12px] md:text-[14px] text-white/80 uppercase tracking-[0.2em] mb-4 block">
               [ Hello i’m ]
             </span>
             
             <h1 className="w-full text-white font-medium tracking-[-0.05em] leading-[0.85] text-left md:text-center">
-              <span className="block md:inline text-[22vw] md:text-[10vw] mix-blend-overlay">Harvey</span>
-              <span className="block md:inline text-[22vw] md:text-[10vw] mix-blend-overlay"> Specter</span>
+              <span ref={harveyRef} className="block md:inline-block text-[22vw] md:text-[10vw] mix-blend-overlay">Harvey</span>
+              <span ref={specterRef} className="block md:inline-block text-[22vw] md:text-[10vw] mix-blend-overlay whitespace-pre"> Specter</span>
             </h1>
           </div>
 
