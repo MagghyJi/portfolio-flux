@@ -45,12 +45,18 @@ export default function About() {
           </span>
         </div>
 
+        <div className="flex flex-col items-center mb-12">
+          <span className="font-mono text-[10px] uppercase text-black tracking-[0.2em]">
+            001
+          </span>
+        </div>
+
         <div className="flex flex-col">
           <p 
             ref={(el) => { linesRef.current[0] = el; }}
             className="px-8 text-[8.5vw] font-extralight leading-[0.95] uppercase text-black tracking-[-0.025em]"
           >
-            A CREATIVE DIRECTOR / <span className="font-mono text-[10px] align-top">[ 001 ]</span>
+            A CREATIVE DIRECTOR /
           </p>
           <p 
             ref={(el) => { linesRef.current[1] = el; }}
@@ -92,7 +98,7 @@ export default function About() {
           </span>
         </div>
         <div className="flex flex-col items-center text-center">
-          <span className="font-mono text-[12px] mb-4 text-black/60">001</span>
+          <span className="font-mono text-[10px] mb-4 text-black tracking-[0.2em]">001</span>
           <h2 
             ref={(el) => { linesRef.current[5] = el; }}
             className="text-[10vw] font-light leading-[1.1] uppercase text-black"
