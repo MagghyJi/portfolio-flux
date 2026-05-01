@@ -1,29 +1,25 @@
 import Image from "next/image";
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
-const projects = [
-  {
-    title: "SURFERS PARADISE",
-    tags: ["Social Media", "Photography"],
-    img: "/surfer-paradise-image.png",
-  },
-  {
-    title: "AGENCY 976",
-    tags: ["Social Media", "Photography"],
-    img: "/agency-image.png",
-  },
-  {
-    title: "CYBERPUNK CAFFE",
-    tags: ["Social Media", "Photography"],
-    img: "/cyberpunk-image.png",
-  },
-  {
-    title: "MINIMAL PLAYGROUND",
-    tags: ["Social Media", "Photography"],
-    img: "/playground-image.png",
-  },
-];
+// Fetching projects from Sanity
+async function getProjects() {
+  const query = `*[_type == "project"] | order(order asc) {
+    title,
+    tags,
+    image,
+    "slug": slug.current
+  }`;
+  return await client.fetch(query);
+}
 
-export default function SelectedWork() {
+export default async function SelectedWork() {
+  const projects = await getProjects();
+
+  // Split projects into two columns for the staggered grid
+  const leftColumnProjects = projects.filter((_: any, i: number) => i % 2 === 0);
+  const rightColumnProjects = projects.filter((_: any, i: number) => i % 2 !== 0);
+
   return (
     <section id="work" className="bg-white py-24 md:py-32 px-6 md:px-12 relative text-black">
       <div className="max-w-[1440px] mx-auto">
@@ -48,10 +44,11 @@ export default function SelectedWork() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-20 md:gap-x-24 items-start">
           {/* Left Column */}
           <div className="flex flex-col gap-20 md:gap-32">
-            <ProjectCard project={projects[0]} />
-            <ProjectCard project={projects[2]} />
+            {leftColumnProjects.map((project: any) => (
+              <ProjectCard key={project.title} project={project} />
+            ))}
             
-            {/* CTA Box - Desktop Position (Fills the gap) */}
+            {/* CTA Box - Desktop Position */}
             <div className="hidden md:block">
               <CTABox />
             </div>
@@ -59,12 +56,13 @@ export default function SelectedWork() {
 
           {/* Right Column - Offset creates the gap on desktop */}
           <div className="flex flex-col gap-20 md:gap-32 md:pt-64">
-            <ProjectCard project={projects[1]} />
-            <ProjectCard project={projects[3]} />
+            {rightColumnProjects.map((project: any) => (
+              <ProjectCard key={project.title} project={project} />
+            ))}
           </div>
         </div>
 
-        {/* 3. Mobile CTA Box - Bottom Position (Blindata) */}
+        {/* 3. Mobile CTA Box - Bottom Position */}
         <div className="md:hidden mt-20">
           <CTABox />
         </div>
@@ -77,7 +75,6 @@ export default function SelectedWork() {
 function CTABox() {
   return (
     <div className="relative p-10 md:p-16 w-full">
-      {/* Large Corner Brackets */}
       <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-black" />
       <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-black" />
       <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-black" />
@@ -96,18 +93,20 @@ function CTABox() {
 }
 
 function ProjectCard({ project }: { project: any }) {
+  const imageUrl = project.image ? urlFor(project.image).url() : "/surfer-paradise-image.png";
+
   return (
     <div className="group cursor-pointer flex flex-col gap-6 md:gap-8 text-black">
       <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
         <Image
-          src={project.img}
+          src={imageUrl}
           alt={project.title}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover transition-transform duration-1000 group-hover:scale-110"
         />
-        <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 flex gap-3">
-          {project.tags.map((tag: string) => (
+        <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 flex gap-3 flex-wrap">
+          {project.tags?.map((tag: string) => (
             <span key={tag} className="bg-white/10 backdrop-blur-md text-white text-[10px] uppercase py-1.5 px-4 rounded-full border border-white/20 font-medium tracking-wider">
               {tag}
             </span>

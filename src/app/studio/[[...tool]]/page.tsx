@@ -1,0 +1,24 @@
+/**
+ * This route is responsible for the built-in authoring environment using Sanity Studio.
+ * All routes under your studio path is handled by this file using Next.js' catch-all routes:
+ * https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes
+ */
+
+import { Studio } from './Studio'
+
+export const metadata = {
+  title: 'Sanity Studio',
+  robots: {
+    index: false,
+  },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
+
+export default function StudioPage() {
+  return <Studio />
+}

@@ -1,30 +1,31 @@
-"use client";
-
 import Image from "next/image";
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
-const articles = [
-  {
-    img: "/article-1-image.png",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    offset: "mt-0"
-  },
-  {
-    img: "/article-2-image.png",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    offset: "pt-48"
-  },
-  {
-    img: "/article-3-image.png",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    offset: "pt-24"
-  },
-];
+// Fetching news from Sanity
+async function getNews() {
+  const query = `*[_type == "news"] | order(order asc) {
+    title,
+    date,
+    image
+  }`;
+  return await client.fetch(query);
+}
 
-export default function News() {
+export default async function News() {
+  const articles = await getNews();
+
+  // Function to determine offset for desktop staggered layout
+  const getOffsetClass = (index: number) => {
+    if (index % 3 === 0) return "mt-0";
+    if (index % 3 === 1) return "pt-48";
+    return "pt-24";
+  };
+
   return (
     <section id="news" className="bg-[#F9F9F9] py-24 md:py-48 relative text-black border-t border-black/5 overflow-hidden">
       
-      {/* 1. Desktop Version (Rotated Title + Staggered Cards) - BLINDATA */}
+      {/* 1. Desktop Version (Rotated Title + Staggered Cards) */}
       <div className="hidden md:flex flex-row items-stretch pl-20 min-h-[900px]">
         <div className="w-48 flex-shrink-0 relative z-20 mr-32">
           <div className="absolute bottom-[160px] left-0 w-full h-fit">
@@ -34,10 +35,10 @@ export default function News() {
           </div>
         </div>
         <div className="flex-1 overflow-x-auto no-scrollbar flex gap-0 pl-10 pr-0">
-          {articles.map((a, i) => (
+          {articles.map((a: any, i: number) => (
             <div 
               key={i} 
-              className={`min-w-[450px] flex flex-col gap-8 px-16 border-l border-black/10 first:border-l-0 ${a.offset}`}
+              className={`min-w-[450px] flex flex-col gap-8 px-16 border-l border-black/10 first:border-l-0 ${getOffsetClass(i)}`}
             >
               <NewsCard a={a} />
             </div>
@@ -45,16 +46,14 @@ export default function News() {
         </div>
       </div>
 
-      {/* 2. Mobile Version (Light Title + Peek Scroll) - Figma Design */}
+      {/* 2. Mobile Version (Light Title + Peek Scroll) */}
       <div className="md:hidden flex flex-col">
-        {/* Title stays in the margin - Forced with inline style */}
         <div style={{ paddingLeft: '24px', paddingRight: '24px' }}>
           <h2 className="text-[9vw] font-light leading-[1.1] uppercase mb-12 tracking-tight">
             KEEP UP WITH MY <br /> LATEST NEWS & <br /> ACHIEVEMENTS
           </h2>
         </div>
         
-        {/* Scroll area - Forced padding-left to 24px via inline style */}
         <div 
           style={{ 
             display: 'flex', 
@@ -65,9 +64,7 @@ export default function News() {
           }} 
           className="no-scrollbar pb-8 w-full"
         >
-          <style dangerouslySetInnerHTML={{ __html: `.no-scrollbar::-webkit-scrollbar { display: none; }` }} />
-          
-          {articles.map((a, i) => (
+          {articles.map((a: any, i: number) => (
             <div 
               key={i} 
               className="shrink-0 w-[82vw] flex flex-col gap-6"
@@ -75,8 +72,6 @@ export default function News() {
               <NewsCard a={a} mobile />
             </div>
           ))}
-          
-          {/* Spacer to maintain the right bleed effect */}
           <div className="shrink-0 w-12" />
         </div>
       </div>
@@ -86,12 +81,14 @@ export default function News() {
 }
 
 function NewsCard({ a, mobile = false }: { a: any, mobile?: boolean }) {
+  const imageUrl = a.image ? urlFor(a.image).url() : "/article-1-image.png";
+
   return (
     <>
       <div className={`relative ${mobile ? "w-full aspect-[3/4.2]" : "w-[353px] h-[469px]"} overflow-hidden shadow-sm`}>
         <Image
-          src={a.img}
-          alt="News article"
+          src={imageUrl}
+          alt={a.title || "News article"}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 hover:scale-105"
@@ -99,7 +96,8 @@ function NewsCard({ a, mobile = false }: { a: any, mobile?: boolean }) {
       </div>
       <div className="flex flex-col gap-6">
         <p className={`text-[14px] leading-relaxed text-black/70 ${mobile ? "w-full" : "max-w-[320px]"}`}>
-          {a.text}
+          <span className="font-bold block mb-2">{a.date}</span>
+          {a.title}
         </p>
         <div className="flex items-center gap-2 group cursor-pointer w-fit border-b border-black pb-1">
           <span className="text-[11px] font-bold uppercase tracking-widest text-black">Read more</span>
