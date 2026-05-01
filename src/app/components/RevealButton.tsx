@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 import gsap from 'gsap';
+import Link from 'next/link';
 
 interface RevealButtonProps {
   children: React.ReactNode;
@@ -56,11 +57,29 @@ export default function RevealButton({
   );
 
   if (href) {
+    const isInternal = href.startsWith('/') || href.startsWith('#');
+    
+    if (isInternal && !href.startsWith('http')) {
+      return (
+        <Link 
+          href={href}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onClick={onClick}
+          className={`${baseStyles} ${className}`}
+          style={borderStyle}
+        >
+          {content}
+        </Link>
+      );
+    }
+
     return (
       <a 
         href={href}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
+        onClick={onClick}
         className={`${baseStyles} ${className}`}
         style={borderStyle}
       >
