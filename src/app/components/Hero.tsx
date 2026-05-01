@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Menu, X } from "lucide-react";
 import RevealButton from "./RevealButton";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -137,7 +138,7 @@ export default function Hero() {
       <div className="relative w-full flex flex-col min-h-screen">
         
         {/* Navbar - This scrolls with the page */}
-        <nav ref={navRef} className="relative w-full max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-10 flex justify-between items-center z-20">
+        <nav ref={navRef} className="relative w-full max-w-[1440px] mx-auto px-6 md:px-12 py-8 md:py-10 flex justify-between items-center z-[200]">
           <a 
             ref={logoRef}
             href="#" 
@@ -169,15 +170,15 @@ export default function Hero() {
             </RevealButton>
           </div>
 
-          {/* Hamburger Toggle */}
+          {/* Mobile Hamburger Toggle */}
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`md:hidden flex flex-col justify-center items-end gap-1.5 w-10 h-10 z-[100] transition-all duration-300 ${isMenuOpen ? "fixed top-8 right-6" : "relative"}`}
+            className="md:hidden relative w-8 h-5 z-[210] flex flex-col justify-between items-center transition-all duration-300"
             aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
           >
-            <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "w-8 rotate-45 translate-y-[4px]" : "w-8"}`}></div>
-            <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "opacity-0" : "w-5"}`}></div>
-            <div className={`h-[2px] bg-black transition-all duration-300 ${isMenuOpen ? "w-8 -rotate-45 -translate-y-[12px]" : "w-8"}`}></div>
+            <div className={`h-[2px] w-8 bg-black transition-all duration-500 ease-in-out ${isMenuOpen ? "absolute top-1/2 rotate-45 -translate-y-1/2" : ""}`}></div>
+            <div className={`h-[2px] w-8 bg-black transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}></div>
+            <div className={`h-[2px] w-8 bg-black transition-all duration-500 ease-in-out ${isMenuOpen ? "absolute top-1/2 -rotate-45 -translate-y-1/2" : ""}`}></div>
           </button>
         </nav>
 
@@ -221,28 +222,30 @@ export default function Hero() {
       />
 
       {/* Premium Mobile Menu Overlay */}
-      <div className={`fixed inset-0 bg-white z-[90] flex flex-col items-center justify-center transition-all duration-500 md:hidden ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
-        <ul className="flex flex-col items-center gap-10">
+      <div className={`fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] md:hidden ${isMenuOpen ? "translate-y-0" : "-translate-y-full"}`}>
+        <ul className="flex flex-col items-center gap-4">
           {links.map((link, i) => (
             <li key={link.name}>
               <a 
                 ref={(el) => { mobileLinksRef.current[i] = el; }}
                 href={link.href} 
                 onClick={() => setIsMenuOpen(false)}
-                className="text-[32px] font-bold text-black uppercase tracking-tighter"
+                className="text-[38px] font-light italic text-black uppercase tracking-[-0.04em] block leading-none py-2 px-6"
               >
                 {link.name}
               </a>
             </li>
           ))}
-          <li className="mt-6">
-            <a 
-              href="#contact" 
-              onClick={() => setIsMenuOpen(false)}
-              className="bg-black text-white text-[18px] font-bold px-14 py-5 rounded-full uppercase"
-            >
-              Let’s talk
-            </a>
+          <li className="mt-10">
+            <div ref={(el) => { mobileLinksRef.current[links.length] = el; }}>
+              <RevealButton 
+                href="#contact" 
+                onClick={() => setIsMenuOpen(false)}
+                className="text-[12px] font-medium px-10 py-3.5"
+              >
+                Let’s talk
+              </RevealButton>
+            </div>
           </li>
         </ul>
       </div>
