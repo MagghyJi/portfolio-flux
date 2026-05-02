@@ -20,7 +20,7 @@ export default function Navigation() {
 
   const links = [
     { name: "About", href: "/about" },
-    { name: "Services", href: "/#services" },
+    { name: "Services", href: "/services" },
     { name: "Projects", href: "/#projects" },
     { name: "News", href: "/news" },
     { name: "Contact", href: "/#contact" },

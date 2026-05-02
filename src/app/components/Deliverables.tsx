@@ -56,7 +56,7 @@ export default async function Deliverables() {
                 {/* Title */}
                 <div className="md:col-span-5">
                   <h3
-                    className="text-4xl md:text-[2.2vw] font-bold italic uppercase leading-none opacity-30 group-hover:opacity-100 group-hover:translate-x-8 transition-all duration-500 ease-out"
+                    className="text-4xl md:text-[2.2vw] font-bold italic uppercase leading-none opacity-100 group-hover:opacity-100 group-hover:translate-x-8 transition-all duration-500 ease-out"
                     style={{ letterSpacing: "-0.02em" }}
                   >
                     {s.name}
