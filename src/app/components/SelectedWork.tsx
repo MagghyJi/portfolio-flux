@@ -4,6 +4,10 @@ import { urlFor } from "@/sanity/lib/image";
 
 import RevealButton from "./RevealButton";
 
+interface SelectedWorkProps {
+  hideHeader?: boolean;
+}
+
 // Fetching projects from Sanity
 async function getProjects() {
   const query = `*[_type == "project"] | order(order asc) {
@@ -15,7 +19,7 @@ async function getProjects() {
   return await client.fetch(query);
 }
 
-export default async function SelectedWork() {
+export default async function SelectedWork({ hideHeader = false }: SelectedWorkProps) {
   const projects = await getProjects();
 
   // Split projects into two columns for the staggered grid
@@ -26,21 +30,23 @@ export default async function SelectedWork() {
     <section id="work" className="bg-white py-24 md:py-32 px-6 md:px-12 relative text-black">
       <div className="max-w-[1440px] mx-auto">
         
-        {/* 1. Header Section */}
-        <div className="mb-16 md:mb-24 relative w-full">
-          <div className="mb-6">
-            <span className="font-mono text-[10px] md:text-[12px] uppercase text-black/40 tracking-[0.2em]">
-              [ PORTFOLIO ]
-            </span>
+        {/* 1. Header Section - Only show if hideHeader is false */}
+        {!hideHeader && (
+          <div className="mb-16 md:mb-24 relative w-full">
+            <div className="mb-6">
+              <span className="font-mono text-[10px] md:text-[12px] uppercase text-black/40 tracking-[0.2em]">
+                [ PORTFOLIO ]
+              </span>
+            </div>
+            
+            <div className="flex justify-between items-start">
+              <h2 className="text-[12vw] md:text-[7vw] font-light leading-[0.85] uppercase tracking-tighter">
+                SELECTED<br />WORK
+              </h2>
+              <span className="font-mono text-[12px] md:text-[14px] mt-2 text-black/40">004</span>
+            </div>
           </div>
-          
-          <div className="flex justify-between items-start">
-            <h2 className="text-[12vw] md:text-[7vw] font-light leading-[0.85] uppercase tracking-tighter">
-              SELECTED<br />WORK
-            </h2>
-            <span className="font-mono text-[12px] md:text-[14px] mt-2 text-black/40">004</span>
-          </div>
-        </div>
+        )}
 
         {/* 2. Staggered Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-20 md:gap-x-24 items-start">
